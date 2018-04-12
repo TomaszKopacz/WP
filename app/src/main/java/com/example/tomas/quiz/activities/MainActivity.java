@@ -11,6 +11,7 @@ import com.example.tomas.quiz.R;
 import com.example.tomas.quiz.app.MainApp;
 import com.example.tomas.quiz.presenters.MainActivityPresenter;
 import com.example.tomas.quiz.presenters.RecyclerViewPresenter;
+import com.example.tomas.quiz.services.QuizAdapter;
 import com.example.tomas.quiz.services.WebService;
 
 import javax.inject.Inject;
@@ -57,5 +58,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    /**
+     * Sets adapter for recycler view.
+     * @param adapter
+     */
+    public void setAdapter(QuizAdapter adapter){
+        recyclerView.setAdapter(adapter);
     }
 }

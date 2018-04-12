@@ -1,5 +1,6 @@
 package com.example.tomas.quiz.presenters;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
@@ -10,8 +11,8 @@ import android.view.View;
 
 public interface RecyclerViewPresenter {
 
-    void onBindView(View view);
-    void onClick(View view, int position);
+    void onBindView(RecyclerView.ViewHolder holder, int position);
+    void onClick(View view);
     int getItemCount();
 
 }

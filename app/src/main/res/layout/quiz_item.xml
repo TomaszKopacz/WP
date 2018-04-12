@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+
+    <ImageView
+        android:id="@+id/quiz_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/quiz_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.65"
+        android:text="TEXT"
+        android:textColor="@android:color/white"
+        android:background="@android:color/black"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/padding_text"/>
+
+    <TextView
+        android:id="@+id/quiz_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TEXT"
+        android:alpha="0.65"
+        android:background="@android:color/darker_gray"
+        android:textAlignment="center"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/padding_text"/>
+</RelativeLayout>

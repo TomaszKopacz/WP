@@ -1,8 +1,6 @@
 package com.example.tomas.quiz.services;
 
-import com.example.tomas.quiz.model.Quiz;
-
-import java.util.List;
+import com.example.tomas.quiz.model.QuizzesSet;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,5 +14,5 @@ import retrofit2.http.GET;
 public interface WebService {
 
     @GET("api/v1/quizzes/0/100")
-    Call<List<Quiz>> getQuizzes();
+    Call<QuizzesSet> getQuizzes();
 }
