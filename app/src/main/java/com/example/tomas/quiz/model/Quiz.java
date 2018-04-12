@@ -1,15 +1,20 @@
 package com.example.tomas.quiz.model;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by tomas on 11.04.2018.
  *
  * Class representing quiz.
  */
 
-public class Quiz {
+public class Quiz extends RealmObject {
 
     private String title;
+
     private int questions;
+
     private Photo mainPhoto;
 
     /**

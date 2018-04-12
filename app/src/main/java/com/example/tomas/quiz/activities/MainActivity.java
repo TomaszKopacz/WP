@@ -1,11 +1,15 @@
 package com.example.tomas.quiz.activities;
 
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.tomas.quiz.R;
 import com.example.tomas.quiz.app.MainApp;
@@ -25,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     WebService service;
+
+    @BindView(R.id.scroll_view)
+    NestedScrollView scrollView;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @BindView(R.id.recview)
     RecyclerView recyclerView;

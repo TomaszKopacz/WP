@@ -1,6 +1,7 @@
 package com.example.tomas.quiz.presenters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -10,6 +11,7 @@ import com.example.tomas.quiz.model.Quiz;
 import com.example.tomas.quiz.model.QuizzesSet;
 import com.example.tomas.quiz.services.QuizAdapter;
 import com.example.tomas.quiz.services.QuizViewHolder;
+import com.example.tomas.quiz.services.RealmService;
 import com.example.tomas.quiz.services.WebService;
 
 import java.util.ArrayList;
@@ -32,8 +34,6 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
 
     // list of quizzes
     private QuizAdapter adapter;
-    private QuizzesSet set;
-    private List<Quiz> quizzes = new ArrayList<>();
 
     /**
      * Constructor.
@@ -50,36 +50,40 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
     /**
      * Downloads list of quizzes.
      */
-    public void downloadQuizzes(){
+    public void downloadQuizzes() {
 
-        // remove previous elements
-        quizzes.clear();
+        if (RealmService.with(activity).isEmpty()){
 
-        // when new elements downloaded
-        Call call = service.getQuizzes();
-        call.enqueue(new Callback<QuizzesSet>() {
+            // when new elements downloaded
+            Call call = service.getQuizzes();
+            call.enqueue(new Callback<QuizzesSet>() {
 
-            @Override
-            public void onResponse(Call<QuizzesSet> call, Response<QuizzesSet> response) {
+                @Override
+                public void onResponse(Call<QuizzesSet> call, Response<QuizzesSet> response) {
 
-                // assign response objects to list
-                set = response.body();
-                quizzes = set.getItems();
+                    // assign response objects to realm
+                    List<Quiz> list = response.body().getItems();
+                    RealmService.with(activity).insertQuizzes(list);
 
-                // send quizzes to activity
-                activity.setAdapter(adapter);
-            }
+                    // send quizzes to activity
+                    activity.setAdapter(adapter);
+                }
 
-            @Override
-            public void onFailure(Call<QuizzesSet> call, Throwable t) {
+                @Override
+                public void onFailure(Call<QuizzesSet> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+
+        } else {
+            activity.setAdapter(adapter);
+        }
     }
 
     @Override
     public void onBindView(RecyclerView.ViewHolder holder, int position) {
-        Quiz quiz = quizzes.get(position);
+
+        Quiz quiz = RealmService.with(activity).getQuiz(position);
 
         // set text views
         ((QuizViewHolder)holder).getTitle().setText(quiz.getTitle());
@@ -102,6 +106,6 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
 
     @Override
     public int getItemCount() {
-        return quizzes.size();
+        return RealmService.with(activity).getQuizCount();
     }
 }

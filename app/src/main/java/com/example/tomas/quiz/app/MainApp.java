@@ -5,6 +5,8 @@ import android.app.Application;
 import com.example.tomas.quiz.di.components.DaggerWebServiceComponent;
 import com.example.tomas.quiz.di.components.WebServiceComponent;
 
+import io.realm.Realm;
+
 /**
  * Created by tomas on 11.04.2018.
  *
@@ -18,7 +20,12 @@ public class MainApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // dependency injection
         mWebServiceComponent = DaggerWebServiceComponent.builder().build();
+
+        // database
+        Realm.init(this);
     }
 
     /**

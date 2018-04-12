@@ -1,12 +1,14 @@
 package com.example.tomas.quiz.model;
 
+import io.realm.RealmObject;
+
 /**
  * Created by tomas on 11.04.2018.
  *
  * Class representing photo.
  */
 
-public class Photo {
+public class Photo extends RealmObject {
 
     private String url;
 
