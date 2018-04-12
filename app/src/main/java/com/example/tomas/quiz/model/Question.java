@@ -17,4 +17,23 @@ public class Question {
 
     private List<Answer> answers = new ArrayList<>();
 
+    public String getType() {
+        return type;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public Photo getImage() {
+        return image;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
 }

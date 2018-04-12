@@ -2,6 +2,7 @@ package com.example.tomas.quiz.presenters;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.Toast;
 
 import com.example.tomas.quiz.activities.QuestionFragment;
 import com.example.tomas.quiz.activities.QuizActivity;
@@ -100,7 +101,14 @@ public class QuizActivityPresenter {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         QuestionFragment fragment = new QuestionFragment();
+        fragment.setPresenter(this);
         transaction.add(activity.getFrame().getId(), fragment);
         transaction.commit();
+    }
+
+    public void answered(int check){
+        if (details.getQuestions().get(progress).getAnswers().get(check-1).getIsCorrect() == 1){
+            Toast.makeText(activity, "SUPER!!!", Toast.LENGTH_LONG).show();
+        }
     }
 }
