@@ -90,13 +90,23 @@ public class RealmService {
     }
 
     /**
-     * Get quiz.
+     * Get quiz by its position.
      * @param position
      * @return
      */
     public Quiz getQuiz(int position){
         List<Quiz> list = realm.where(Quiz.class).findAll();
         return list.get(position);
+    }
+
+    /**
+     * Get quiz by its position.
+     * @param id
+     * @return
+     */
+    public Quiz getQuiz(String id){
+        Quiz quiz = realm.where(Quiz.class).equalTo("id", id).findFirst();
+        return quiz;
     }
 
     /**

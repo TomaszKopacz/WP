@@ -3,7 +3,6 @@ package com.example.tomas.quiz.services;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.tomas.quiz.R;

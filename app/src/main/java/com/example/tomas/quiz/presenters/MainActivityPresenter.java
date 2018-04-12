@@ -1,7 +1,6 @@
 package com.example.tomas.quiz.presenters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,7 +13,6 @@ import com.example.tomas.quiz.services.QuizViewHolder;
 import com.example.tomas.quiz.services.RealmService;
 import com.example.tomas.quiz.services.WebService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -95,6 +93,7 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
         Glide
                 .with(activity)
                 .load(quiz.getPhoto().getUrl())
+                .fitCenter()
                 .centerCrop()
                 .into(view);
     }

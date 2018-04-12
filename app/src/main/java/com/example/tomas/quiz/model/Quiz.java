@@ -11,11 +11,17 @@ import io.realm.annotations.PrimaryKey;
 
 public class Quiz extends RealmObject {
 
+    private String id;
+
     private String title;
+
+    private Photo mainPhoto;
 
     private int questions;
 
-    private Photo mainPhoto;
+    private int progress;
+
+    private int score;
 
     /**
      * Constructor.
@@ -46,5 +52,29 @@ public class Quiz extends RealmObject {
 
     public void setPhoto(Photo photo) {
         this.mainPhoto = photo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

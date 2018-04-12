@@ -1,6 +1,7 @@
 package com.example.tomas.quiz.di.components;
 
 import com.example.tomas.quiz.activities.MainActivity;
+import com.example.tomas.quiz.activities.QuizActivity;
 import com.example.tomas.quiz.di.providers.WebServiceModule;
 
 import javax.inject.Singleton;
@@ -18,4 +19,5 @@ import dagger.Component;
 public interface WebServiceComponent {
 
     void inject(MainActivity mainActivity);
+    void inject(QuizActivity quizActivity);
 }
