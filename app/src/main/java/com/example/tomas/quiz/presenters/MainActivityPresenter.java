@@ -1,11 +1,13 @@
 package com.example.tomas.quiz.presenters;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.tomas.quiz.activities.MainActivity;
+import com.example.tomas.quiz.activities.QuizActivity;
 import com.example.tomas.quiz.model.Quiz;
 import com.example.tomas.quiz.model.QuizzesSet;
 import com.example.tomas.quiz.services.QuizAdapter;
@@ -101,6 +103,16 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
     @Override
     public void onClick(View view) {
 
+        // get clicked quiz
+        int position = activity.getRecyclerView().getChildAdapterPosition(view);
+        Quiz quiz = RealmService.with(activity).getQuiz(position);
+        String id = quiz.getId();
+
+        // start quiz activity
+        Intent intent = new Intent(activity, QuizActivity.class);
+        intent.putExtra("id", id);
+        activity.startActivity(intent);
+        activity.finish();
     }
 
     @Override

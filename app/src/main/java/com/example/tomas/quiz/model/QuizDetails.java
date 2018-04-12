@@ -17,4 +17,16 @@ public class QuizDetails {
     public QuizDetails(){
 
     }
+
+    public float getAvgResult() {
+        return avgResult;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public List<Rate> getRates() {
+        return rates;
+    }
 }

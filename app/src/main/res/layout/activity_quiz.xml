@@ -9,10 +9,9 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/question_title"
+        android:id="@+id/quiz_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:layout_margin="@dimen/margin"
         android:textSize="@dimen/text_size"
         android:gravity="center"/>
@@ -25,11 +24,11 @@
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin"/>
 
-    <fragment
-        android:name="com.example.tomas.quiz.activities.QuestionFragment"
+    <FrameLayout
+        android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </fragment>
+    </FrameLayout>
 
 </LinearLayout>

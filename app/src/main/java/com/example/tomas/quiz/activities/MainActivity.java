@@ -77,4 +77,12 @@ public class MainActivity extends AppCompatActivity {
     public void setAdapter(QuizAdapter adapter){
         recyclerView.setAdapter(adapter);
     }
+
+    /**
+     * Returns recycler view.
+     * @return recycler view
+     */
+    public RecyclerView getRecyclerView(){
+        return recyclerView;
+    }
 }
