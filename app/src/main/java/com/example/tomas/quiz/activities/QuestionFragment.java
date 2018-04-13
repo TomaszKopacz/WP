@@ -6,34 +6,40 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.tomas.quiz.R;
-import com.example.tomas.quiz.model.Answer;
-import com.example.tomas.quiz.model.Question;
-import com.example.tomas.quiz.presenters.QuizActivityPresenter;
+import com.example.tomas.quiz.presenters.QuestionFragmentPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 
 /**
  *
  */
 public class QuestionFragment extends Fragment {
 
-    private QuizActivityPresenter presenter;
-    private Question question;
+    private QuestionFragmentPresenter presenter;
+
+    private String title;
+    private String photoUrl;
+    private List<RadioButton> buttons = new ArrayList<>();
 
     @BindView(R.id.question)
     TextView questionTextView;
 
+    @BindView(R.id.question_image)
+    ImageView imageView;
+
     @BindView(R.id.radio_group)
     RadioGroup group;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,43 +51,64 @@ public class QuestionFragment extends Fragment {
         // bind views
         ButterKnife.bind(this, view);
 
-        // set data
-        setData();
+        // load content
+        setUp();
+
+        // set listener
+        group.setOnCheckedChangeListener(listener);
 
         return view;
     }
 
-    public void setPresenter(QuizActivityPresenter presenter){
+    private void setUp(){
+
+        // set question
+        if (title != null)
+            questionTextView.setText(title);
+
+        // set question image
+        if (photoUrl != null)
+            Glide
+                .with(this)
+                .load(photoUrl)
+                .centerCrop()
+                .into(imageView);
+
+        // set answers
+        for (RadioButton btn : buttons)
+            group.addView(btn);
+    }
+
+    /**
+     * Sets presenter for this fragment.
+     * @param presenter
+     */
+    public void setPresenter(QuestionFragmentPresenter presenter){
         this.presenter = presenter;
     }
 
-    public void setQuestion(Question question){
-        this.question = question;
+    /**
+     * Sets question text.
+     * @param title
+     */
+    public void setTitle(String title){
+        this.title = title;
     }
 
-    private void setData(){
-        questionTextView.setText(question.getText());
-        int count = question.getAnswers().size();
+    /**
+     * Sets question photo.
+     * @param url
+     */
+    public void loadQuestionPhoto(String url){
+        this.photoUrl = url;
+    }
 
-        for(int i = 0; i < count; i++){
-            RadioButton btn = new RadioButton(getContext());
-            btn.setId(i);
-            btn.setText(question.getAnswers().get(i).getText());
-            btn.setTextColor(getResources().getColor(R.color.colorTextPrimary));
-            btn.setTextSize(20);
-
-            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
-                    RadioGroup.LayoutParams.WRAP_CONTENT,
-                    RadioGroup.LayoutParams.WRAP_CONTENT
-            );
-            int margin = (int)getResources().getDimension(R.dimen.margin);
-            params.setMargins(margin, margin, margin, margin);
-            btn.setLayoutParams(params);
-
-            group.addView(btn);
-        }
-
-        group.setOnCheckedChangeListener(listener);
+    /**
+     * Adds new answer.
+     * @param radio
+     */
+    public void addAnswerOption(RadioButton radio){
+        buttons.add(radio);
     }
 
     private RadioGroup.OnCheckedChangeListener listener = new RadioGroup.OnCheckedChangeListener() {

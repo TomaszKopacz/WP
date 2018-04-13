@@ -3,6 +3,7 @@ package com.example.tomas.quiz.services;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.tomas.quiz.R;
@@ -27,6 +28,12 @@ public class QuizViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.quiz_result)
     TextView result;
 
+    @BindView(R.id.quiz_score)
+    TextView score;
+
+    @BindView(R.id.progress_bar_result)
+    ProgressBar progressBar;
+
     /**
      * Constructor.
      * @param itemView
@@ -48,5 +55,13 @@ public class QuizViewHolder extends RecyclerView.ViewHolder {
 
     public TextView getResult() {
         return result;
+    }
+
+    public TextView getScore() {
+        return score;
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
     }
 }

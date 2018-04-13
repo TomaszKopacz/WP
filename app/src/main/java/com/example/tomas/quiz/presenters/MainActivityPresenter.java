@@ -83,14 +83,14 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
     @Override
     public void onBindView(RecyclerView.ViewHolder holder, int position) {
 
+        QuizViewHolder quizHolder = (QuizViewHolder)holder;
         Quiz quiz = RealmService.with(activity).getQuiz(position);
 
-        // set text views
-        ((QuizViewHolder)holder).getTitle().setText(quiz.getTitle());
-        ((QuizViewHolder)holder).getResult().setText("RESULT");
+        // set title
+        quizHolder.getTitle().setText(quiz.getTitle());
 
         // set image
-        ImageView view = ((QuizViewHolder)holder).getImage();
+        ImageView view = quizHolder.getImage();
 
         Glide
                 .with(activity)
@@ -98,6 +98,38 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
                 .fitCenter()
                 .centerCrop()
                 .into(view);
+
+        // set result
+        if (quiz.getProgress() < quiz.getQuestionsCount()){
+
+            // user didn't complete the quiz: show progress bar
+
+            // count progress in %
+            int progress = (int)(((float)quiz.getProgress()/quiz.getQuestionsCount())*100);
+
+            // set text
+            quizHolder.getResult().setText("Postęp:");
+
+            // show progress bar
+            quizHolder.getProgressBar().setVisibility(View.VISIBLE);
+            quizHolder.getScore().setVisibility(View.GONE);
+            quizHolder.getProgressBar().setProgress(progress);
+
+        } else {
+
+            // if quiz is completed show the score
+
+            // count result in %
+            int result = (int)(((float)quiz.getScore()/quiz.getQuestionsCount())*100);
+
+            // set text
+            quizHolder.getResult().setText("Wynik:");
+
+            // set result
+            quizHolder.getProgressBar().setVisibility(View.GONE);
+            quizHolder.getScore().setVisibility(View.VISIBLE);
+            quizHolder.getScore().setText(result + "%");
+        }
     }
 
     @Override

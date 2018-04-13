@@ -10,13 +10,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textColor="@color/colorTextPrimary"
-        android:textSize="@dimen/text_size_large"
+        android:textSize="@dimen/text_size_medium"
         android:layout_margin="@dimen/margin"
         android:padding="@dimen/padding_text" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/question_image"
+        android:layout_width="@dimen/image_width"
+        android:layout_height="@dimen/image_height"
         android:layout_below="@+id/question"
         android:layout_centerInParent="true"/>
 

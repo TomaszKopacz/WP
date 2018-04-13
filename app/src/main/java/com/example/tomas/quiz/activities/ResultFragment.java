@@ -13,22 +13,24 @@ import com.example.tomas.quiz.R;
 import com.example.tomas.quiz.model.Quiz;
 import com.example.tomas.quiz.model.Rate;
 import com.example.tomas.quiz.presenters.QuizActivityPresenter;
+import com.example.tomas.quiz.presenters.ResultFragmentPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  *
  */
 public class ResultFragment extends Fragment {
 
-    private QuizActivityPresenter presenter;
+    private ResultFragmentPresenter presenter;
 
-    private int score = 0;
-    private List<Rate> rates = new ArrayList<>();
+    private int score;
+    private String comment;
 
     @BindView(R.id.score)
     TextView scoreView;
@@ -57,36 +59,55 @@ public class ResultFragment extends Fragment {
         // bind views
         ButterKnife.bind(this, view);
 
-        // set data
-        setData();
+        // set content
+        setUp();
 
         return view;
     }
 
-    private void setData(){
-        // show percent result
-        scoreView.append(score + "%");
+    /**
+     * Sets content.
+     */
+    private void setUp(){
 
-        // show message
-        if (!rates.isEmpty()){
-            for (Rate rate : rates){
-                if (score >= rate.getFrom() && score < rate.getTo()){
-                    rateView.setText(rate.getContent());
-                }
-            }
-        }
+        if (score >= 0 && score <= 100)
+            scoreView.append(score + "%");
+
+        if (comment != null)
+            rateView.setText(comment);
     }
 
-    public void setPresenter(QuizActivityPresenter presenter){
+    /**
+     * Sets presenter.
+     * @param presenter
+     */
+    public void setPresenter(ResultFragmentPresenter presenter){
         this.presenter = presenter;
     }
 
+    /**
+     * Sets score text.
+     * @param score
+     */
     public void setScore(int score){
         this.score = score;
     }
 
-    public void setRates(List<Rate> rates){
-        this.rates = rates;
+    /**
+     * Sets comment.
+     * @param comment
+     */
+    public void setComment(String comment){
+        this.comment = comment;
     }
 
+    @OnClick(R.id.again)
+    public void doQuizAgain(){
+        presenter.doQuizAgain();
+    }
+
+    @OnClick(R.id.back)
+    public void exitQuiz(){
+        presenter.exitQuiz();
+    }
 }

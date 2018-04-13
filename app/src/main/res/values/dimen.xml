@@ -2,12 +2,20 @@
 <resources>
     <dimen name="padding_text">4dp</dimen>
     <dimen name="margin">10dp</dimen>
+    <dimen name="margin_medium">14dp</dimen>
     <dimen name="text_size">16sp</dimen>
+    <dimen name="text_size_medium">20sp</dimen>
     <dimen name="text_size_large">24sp</dimen>
 
     <!-- QUESTION FRAGMENT-->
+    <dimen name="item_height">300dp</dimen>
+
+    <!-- QUESTION FRAGMENT-->
+    <dimen name="image_width">120dp</dimen>
+    <dimen name="image_height">180dp</dimen>
     <dimen name="radio_margin_bottom">100dp</dimen>
 
+    <!-- RESULT FRAGMENT-->
     <dimen name="button_width">120dp</dimen>
     <dimen name="button_height">80dp</dimen>
 
