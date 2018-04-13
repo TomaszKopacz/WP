@@ -1,50 +1,34 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.example.tomas.quiz.activities.ResultFragment"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    tools:context="com.example.tomas.quiz.activities.ResultFragment">
 
     <TextView
         android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin"/>
+        android:layout_alignParentTop="true"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="@dimen/text_size_large"
+        android:layout_margin="@dimen/margin"
+        android:padding="@dimen/padding_text" />
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question"
+        android:layout_centerInParent="true"/>
 
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin">
-
-        <RadioButton
-            android:id="@+id/radio1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"/>
-
-        <RadioButton
-            android:id="@+id/radio2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"/>
-
-        <RadioButton
-            android:id="@+id/radio3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"/>
-
-        <RadioButton
-            android:id="@+id/radio4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/radio_margin_bottom"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin">
 
     </RadioGroup>
 
-</LinearLayout>
+</RelativeLayout>

@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,6 +28,9 @@ public class QuizActivity extends FragmentActivity {
 
     @Inject
     WebService service;
+
+    @BindView(R.id.image_layout)
+    ImageView image;
 
     @BindView(R.id.quiz_title)
     TextView titleView;
@@ -89,7 +94,7 @@ public class QuizActivity extends FragmentActivity {
         progressBar.setProgress(progress);
     }
 
-    public FrameLayout getFrame(){
-        return frame;
+    public ImageView getImageVIew(){
+        return image;
     }
 }

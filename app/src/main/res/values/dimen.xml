@@ -5,6 +5,9 @@
     <dimen name="text_size">16sp</dimen>
     <dimen name="text_size_large">24sp</dimen>
 
+    <!-- QUESTION FRAGMENT-->
+    <dimen name="radio_margin_bottom">100dp</dimen>
+
     <dimen name="button_width">120dp</dimen>
     <dimen name="button_height">80dp</dimen>
 

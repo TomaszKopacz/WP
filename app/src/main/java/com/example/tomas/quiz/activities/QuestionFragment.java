@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.tomas.quiz.R;
+import com.example.tomas.quiz.model.Answer;
 import com.example.tomas.quiz.model.Question;
 import com.example.tomas.quiz.presenters.QuizActivityPresenter;
 
@@ -29,17 +31,9 @@ public class QuestionFragment extends Fragment {
     @BindView(R.id.question)
     TextView questionTextView;
 
-    @BindView(R.id.radio1)
-    RadioButton button1;
+    @BindView(R.id.radio_group)
+    RadioGroup group;
 
-    @BindView(R.id.radio2)
-    RadioButton button2;
-
-    @BindView(R.id.radio3)
-    RadioButton button3;
-
-    @BindView(R.id.radio4)
-    RadioButton button4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,37 +61,33 @@ public class QuestionFragment extends Fragment {
 
     private void setData(){
         questionTextView.setText(question.getText());
-        button1.setText(question.getAnswers().get(0).getText());
-        button2.setText(question.getAnswers().get(1).getText());
-        button3.setText(question.getAnswers().get(2).getText());
-        button4.setText(question.getAnswers().get(3).getText());
-    }
+        int count = question.getAnswers().size();
 
-    @OnCheckedChanged({
-            R.id.radio1,
-            R.id.radio2,
-            R.id.radio3,
-            R.id.radio4
-    })
-    public void onRadioSelected(CompoundButton button, boolean checked){
-        if (checked){
-            switch (button.getId()){
-                case R.id.radio1:
-                    presenter.answered(1);
-                    break;
+        for(int i = 0; i < count; i++){
+            RadioButton btn = new RadioButton(getContext());
+            btn.setId(i);
+            btn.setText(question.getAnswers().get(i).getText());
+            btn.setTextColor(getResources().getColor(R.color.colorTextPrimary));
+            btn.setTextSize(20);
 
-                case R.id.radio2:
-                    presenter.answered(2);
-                    break;
+            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
+                    RadioGroup.LayoutParams.WRAP_CONTENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT
+            );
+            int margin = (int)getResources().getDimension(R.dimen.margin);
+            params.setMargins(margin, margin, margin, margin);
+            btn.setLayoutParams(params);
 
-                case R.id.radio3:
-                    presenter.answered(3);
-                    break;
-
-                case R.id.radio4:
-                    presenter.answered(4);
-                    break;
-            }
+            group.addView(btn);
         }
+
+        group.setOnCheckedChangeListener(listener);
     }
+
+    private RadioGroup.OnCheckedChangeListener listener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup radioGroup, int i) {
+            presenter.answered(i);
+        }
+    };
 }

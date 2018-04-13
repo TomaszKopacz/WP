@@ -1,5 +1,8 @@
 package com.example.tomas.quiz.presenters;
 
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.example.tomas.quiz.activities.QuestionFragment;
 import com.example.tomas.quiz.activities.QuizActivity;
 import com.example.tomas.quiz.activities.ResultFragment;
@@ -9,6 +12,8 @@ import com.example.tomas.quiz.model.Quiz;
 import com.example.tomas.quiz.model.QuizDetails;
 import com.example.tomas.quiz.services.RealmService;
 import com.example.tomas.quiz.services.WebService;
+
+import javax.microedition.khronos.opengles.GL;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +55,13 @@ public class QuizActivityPresenter {
 
         // set title
         activity.setTitle(currentQuiz.getTitle());
+
+        // set background
+        Glide
+                .with(activity)
+                .load(currentQuiz.getPhoto().getUrl())
+                .centerCrop()
+                .into(activity.getImageVIew());
 
         // count progress bar value in %
         int status = (int)(((float)progress/currentQuiz.getQuestionsCount())*100);
@@ -101,7 +113,7 @@ public class QuizActivityPresenter {
 
         // get answer checked
         Question q = details.getQuestions().get(progress);
-        Answer a = q.getAnswers().get(check-1);
+        Answer a = q.getAnswers().get(check);
 
         // if answer is correct increment score
         if (a.getIsCorrect() == 1){
