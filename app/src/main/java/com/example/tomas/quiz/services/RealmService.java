@@ -79,6 +79,10 @@ public class RealmService {
         realm.commitTransaction();
     }
 
+    /*===================================================
+                        INSERT
+     ===================================================*/
+
     /**
      * Insert quiz.
      * @param list
@@ -88,6 +92,10 @@ public class RealmService {
         realm.copyToRealm(list);
         realm.commitTransaction();
     }
+
+    /*===================================================
+                        GET
+     ===================================================*/
 
     /**
      * Get quiz by its position.
@@ -108,6 +116,25 @@ public class RealmService {
         Quiz quiz = realm.where(Quiz.class).equalTo("id", id).findFirst();
         return quiz;
     }
+
+    /*===================================================
+                        UPDATE
+     ===================================================*/
+
+    /**
+     * Updates the quiz.
+     * @param quiz
+     */
+    public void updateQuiz(Quiz quiz){
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(quiz);
+        realm.commitTransaction();
+    }
+
+
+    /*===================================================
+                        UTILS
+     ===================================================*/
 
     /**
      * Checks if quizzes table is empty.

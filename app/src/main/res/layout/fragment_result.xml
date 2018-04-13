@@ -5,4 +5,50 @@
     tools:context="com.example.tomas.quiz.activities.ResultFragment"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ukończyłeś test!"
+        android:gravity="center"
+        android:textSize="@dimen/text_size"
+        android:layout_margin="@dimen/margin"/>
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Twój wynik: "
+        android:gravity="center"
+        android:textSize="@dimen/text_size_large"
+        android:layout_margin="@dimen/margin"/>
+
+    <TextView
+        android:id="@+id/rate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/text_size"
+        android:layout_margin="@dimen/margin"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/again"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_margin="@dimen/margin"
+            android:text="@string/button_again" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_margin="@dimen/margin"
+            android:text="@string/button_back"/>
+    </LinearLayout>
+
 </LinearLayout>

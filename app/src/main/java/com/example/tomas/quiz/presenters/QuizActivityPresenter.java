@@ -1,20 +1,14 @@
 package com.example.tomas.quiz.presenters;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.widget.Toast;
-
 import com.example.tomas.quiz.activities.QuestionFragment;
 import com.example.tomas.quiz.activities.QuizActivity;
+import com.example.tomas.quiz.activities.ResultFragment;
+import com.example.tomas.quiz.model.Answer;
 import com.example.tomas.quiz.model.Question;
 import com.example.tomas.quiz.model.Quiz;
 import com.example.tomas.quiz.model.QuizDetails;
-import com.example.tomas.quiz.model.Rate;
 import com.example.tomas.quiz.services.RealmService;
 import com.example.tomas.quiz.services.WebService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,19 +26,11 @@ public class QuizActivityPresenter {
     // quiz
     private Quiz currentQuiz;
 
-    private String quizID;
-    private String quizTitle;
-    private int questionsCount;
-    private int progress = 0;
-    private int score = 0;
-
     // quiz details
     private QuizDetails details;
 
-    private float avgScore;
-    private List<Question> questions = new ArrayList<>();
-    private List<Rate> rates = new ArrayList<>();
-
+    private int progress = 0;
+    private int score = 0;
 
     public QuizActivityPresenter(QuizActivity activity, WebService service){
         this.activity = activity;
@@ -57,10 +43,17 @@ public class QuizActivityPresenter {
      */
     public void startQuiz(String id){
 
-        // get current quiz and set layout
+        // get current quiz values
         currentQuiz = getQuiz(id);
+        progress = currentQuiz.getProgress();
+        score = currentQuiz.getScore();
+
+        // set title
         activity.setTitle(currentQuiz.getTitle());
-        activity.setProgressValue(currentQuiz.getProgress());
+
+        // count progress bar value in %
+        int status = (int)(((float)progress/currentQuiz.getQuestionsCount())*100);
+        activity.setProgressValue(status);
 
         // get quiz details: questions, answers, average score
         downloadQuizDetails(id);
@@ -83,7 +76,14 @@ public class QuizActivityPresenter {
             @Override
             public void onResponse(Call<QuizDetails> call, Response<QuizDetails> response) {
                 details = response.body();
-                askQuestion(details.getQuestions().get(progress));
+
+                if (progress < currentQuiz.getQuestionsCount())
+                    // ask next question
+                    askQuestion(details.getQuestions().get(progress));
+
+                else
+                    // it was last question: show result
+                    showResult();
             }
 
             @Override
@@ -94,21 +94,78 @@ public class QuizActivityPresenter {
     }
 
     /**
-     * Starts interface to ask question
+     * Reacts the answer.
+     * @param check
      */
-    private void askQuestion(Question question){
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+    public void answered(int check){
 
-        QuestionFragment fragment = new QuestionFragment();
-        fragment.setPresenter(this);
-        transaction.add(activity.getFrame().getId(), fragment);
-        transaction.commit();
+        // get answer checked
+        Question q = details.getQuestions().get(progress);
+        Answer a = q.getAnswers().get(check-1);
+
+        // if answer is correct increment score
+        if (a.getIsCorrect() == 1){
+            score++;
+        }
+
+        // update progress
+        progress++;
+
+        // update data to realm
+        Quiz quizToUpdate = new Quiz(currentQuiz);
+        quizToUpdate.setProgress(progress);
+        quizToUpdate.setScore(score);
+        RealmService.with(activity).updateQuiz(quizToUpdate);
+
+        // actualize progress bar
+        int status = (int)(((float)progress/currentQuiz.getQuestionsCount())*100);
+        activity.setProgressValue(status);
+
+
+        if (progress < currentQuiz.getQuestionsCount())
+            // ask next question
+            askQuestion(details.getQuestions().get(progress));
+
+        else
+            // it was last question: show result
+            showResult();
     }
 
-    public void answered(int check){
-        if (details.getQuestions().get(progress).getAnswers().get(check-1).getIsCorrect() == 1){
-            Toast.makeText(activity, "SUPER!!!", Toast.LENGTH_LONG).show();
-        }
+    /**
+     * Starts interface to ask question.
+     */
+    private void askQuestion(Question question){
+
+        // get question fragment
+        QuestionFragment fragment = getQuestionFragment(question);
+
+        // set fragment to activity
+        activity.setFragment(fragment);
+    }
+
+    private void showResult(){
+
+        // get result fragment
+        ResultFragment fragment = getResultFragment();
+
+        // set fragment to activity
+        activity.setFragment(fragment);
+    }
+
+    private QuestionFragment getQuestionFragment(Question question){
+        QuestionFragment fragment = new QuestionFragment();
+        fragment.setPresenter(this);
+        fragment.setQuestion(question);
+
+        return fragment;
+    }
+
+    private ResultFragment getResultFragment() {
+        ResultFragment fragment = new ResultFragment();
+        fragment.setPresenter(this);
+        fragment.setScore((int)(((float)score/currentQuiz.getQuestionsCount())*100));
+        fragment.setRates(details.getRates());
+
+        return fragment;
     }
 }

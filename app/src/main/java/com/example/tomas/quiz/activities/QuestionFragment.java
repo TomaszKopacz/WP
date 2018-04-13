@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.tomas.quiz.R;
+import com.example.tomas.quiz.model.Question;
 import com.example.tomas.quiz.presenters.QuizActivityPresenter;
 
 import butterknife.BindView;
@@ -22,6 +24,10 @@ import butterknife.OnCheckedChanged;
 public class QuestionFragment extends Fragment {
 
     private QuizActivityPresenter presenter;
+    private Question question;
+
+    @BindView(R.id.question)
+    TextView questionTextView;
 
     @BindView(R.id.radio1)
     RadioButton button1;
@@ -39,16 +45,32 @@ public class QuestionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // inflate view
         View view = inflater.inflate(R.layout.fragment_question, container, false);
 
         // bind views
         ButterKnife.bind(this, view);
+
+        // set data
+        setData();
 
         return view;
     }
 
     public void setPresenter(QuizActivityPresenter presenter){
         this.presenter = presenter;
+    }
+
+    public void setQuestion(Question question){
+        this.question = question;
+    }
+
+    private void setData(){
+        questionTextView.setText(question.getText());
+        button1.setText(question.getAnswers().get(0).getText());
+        button2.setText(question.getAnswers().get(1).getText());
+        button3.setText(question.getAnswers().get(2).getText());
+        button4.setText(question.getAnswers().get(3).getText());
     }
 
     @OnCheckedChanged({
@@ -78,5 +100,4 @@ public class QuestionFragment extends Fragment {
             }
         }
     }
-
 }

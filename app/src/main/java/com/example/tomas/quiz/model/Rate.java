@@ -13,4 +13,16 @@ public class Rate {
     public Rate(){
 
     }
+
+    public int getFrom() {
+        return from;
+    }
+
+    public int getTo() {
+        return to;
+    }
+
+    public String getContent() {
+        return content;
+    }
 }

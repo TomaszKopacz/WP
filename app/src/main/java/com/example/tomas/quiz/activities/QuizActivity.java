@@ -1,6 +1,9 @@
 package com.example.tomas.quiz.activities;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -63,6 +66,19 @@ public class QuizActivity extends FragmentActivity {
      */
     public void setTitle(String title){
         titleView.setText(title);
+    }
+
+    /**
+     * Sets fragment.
+     * @param fragment
+     */
+    public void setFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        //fragmentManager.popBackStack();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        frame.removeAllViews();
+        transaction.add(frame.getId(), fragment);
+        transaction.commit();
     }
 
     /**

@@ -11,6 +11,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class Quiz extends RealmObject {
 
+    @PrimaryKey
     private String id;
 
     private String title;
@@ -19,15 +20,36 @@ public class Quiz extends RealmObject {
 
     private int questions;
 
-    private int progress;
+    private int progress = 0;
 
-    private int score;
+    private int score = 0;
 
     /**
      * Constructor.
      */
     public Quiz(){
 
+    }
+
+    /**
+     * Copying constructor.
+     * @param quiz
+     */
+    public Quiz(Quiz quiz){
+        id = quiz.id;
+        title = quiz.title;
+        mainPhoto = quiz.mainPhoto;
+        questions = quiz.questions;
+        progress = quiz.progress;
+        score = quiz.score;
+    }
+
+    public void incrementProgress(){
+        progress++;
+    }
+
+    public void incrementScore(){
+        score++;
     }
 
     public String getTitle() {
