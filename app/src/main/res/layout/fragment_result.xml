@@ -2,14 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.tomas.quiz.activities.ResultFragment"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/end_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextPrimary"
-        android:text="Ukończyłeś test!"
+        android:text="Ukończyłeś quiz!\n Twój wynik:"
         android:gravity="center"
         android:textSize="@dimen/text_size"
         android:layout_margin="@dimen/margin_medium"/>
@@ -19,10 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextPrimary"
-        android:text="Twój wynik: "
         android:gravity="center"
         android:textSize="@dimen/text_size_large"
-        android:layout_margin="@dimen/margin_medium"/>
+        android:layout_margin="@dimen/margin_large"/>
 
     <TextView
         android:id="@+id/rate"
@@ -39,19 +40,22 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <Button
+        <com.github.rubensousa.raiflatbutton.RaiflatButton
+            android:id="@+id/back"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_margin="@dimen/margin"
+            android:text="@string/button_back" />
+
+        <com.github.rubensousa.raiflatbutton.RaiflatButton
             android:id="@+id/again"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:layout_margin="@dimen/margin"
             android:text="@string/button_again" />
 
-        <Button
-            android:id="@+id/back"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="@dimen/button_height"
-            android:layout_margin="@dimen/margin"
-            android:text="@string/button_back"/>
     </LinearLayout>
 
 </LinearLayout>

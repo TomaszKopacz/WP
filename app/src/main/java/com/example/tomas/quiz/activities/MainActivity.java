@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.example.tomas.quiz.R;
 import com.example.tomas.quiz.app.MainApp;
 import com.example.tomas.quiz.presenters.MainActivityPresenter;
@@ -32,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.scroll_view)
     NestedScrollView scrollView;
-
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
 
     @BindView(R.id.recview)
     RecyclerView recyclerView;

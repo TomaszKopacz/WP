@@ -1,6 +1,7 @@
 package com.example.tomas.quiz.presenters;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -99,36 +100,49 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
                 .centerCrop()
                 .into(view);
 
-        // set result
-        if (quiz.getProgress() < quiz.getQuestionsCount()){
+        // set results
+        int questionsCount = quiz.getQuestionsCount();
+        int numOfAns = quiz.getProgress();
+        int score = quiz.getScore();
 
-            // user didn't complete the quiz: show progress bar
+        if (numOfAns < questionsCount){
 
-            // count progress in %
-            int progress = (int)(((float)quiz.getProgress()/quiz.getQuestionsCount())*100);
+            // user haven't completed quiz
 
             // set text
             quizHolder.getResult().setText("Postęp:");
 
-            // show progress bar
-            quizHolder.getProgressBar().setVisibility(View.VISIBLE);
-            quizHolder.getScore().setVisibility(View.GONE);
+            // show progress bar and num of answers
+            // count progress in %
+            int progress = (int)(((float)numOfAns/questionsCount)*100);
             quizHolder.getProgressBar().setProgress(progress);
+            quizHolder.getScore().setText(numOfAns + "/" + questionsCount);
+
+            quizHolder.getScore().setTextColor(Color.BLACK);
 
         } else {
 
-            // if quiz is completed show the score
-
-            // count result in %
-            int result = (int)(((float)quiz.getScore()/quiz.getQuestionsCount())*100);
+            // quiz is complete
 
             // set text
             quizHolder.getResult().setText("Wynik:");
 
-            // set result
-            quizHolder.getProgressBar().setVisibility(View.GONE);
-            quizHolder.getScore().setVisibility(View.VISIBLE);
+            // show progress bar and score
+            // count result in %
+            int result = (int)(((float)score/questionsCount)*100);
+            quizHolder.getProgressBar().setProgress(result);
             quizHolder.getScore().setText(result + "%");
+
+            if (result < 30)
+                quizHolder.getScore().setTextColor(Color.RED);
+            else if (result > 70)
+                quizHolder.getScore().setTextColor(Color.GREEN);
+            else
+                quizHolder.getScore().setTextColor(Color.YELLOW);
+
+
+
+
         }
     }
 

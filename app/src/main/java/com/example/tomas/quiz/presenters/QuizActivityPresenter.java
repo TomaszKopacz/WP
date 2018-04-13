@@ -248,6 +248,7 @@ public class QuizActivityPresenter implements QuestionFragmentPresenter, ResultF
         // go to main activity
         Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent);
+        activity.finish();
     }
 
     @Override

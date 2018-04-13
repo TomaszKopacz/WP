@@ -6,22 +6,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.tomas.quiz.R;
-import com.example.tomas.quiz.model.Quiz;
-import com.example.tomas.quiz.model.Rate;
-import com.example.tomas.quiz.presenters.QuizActivityPresenter;
 import com.example.tomas.quiz.presenters.ResultFragmentPresenter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.github.rubensousa.raiflatbutton.RaiflatButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 /**
  *
  */
@@ -39,10 +32,10 @@ public class ResultFragment extends Fragment {
     TextView rateView;
 
     @BindView(R.id.again)
-    Button againBtn;
+    RaiflatButton againBtn;
 
     @BindView(R.id.back)
-    Button backBtn;
+    RaiflatButton backBtn;
 
     public ResultFragment() {
 
@@ -71,7 +64,7 @@ public class ResultFragment extends Fragment {
     private void setUp(){
 
         if (score >= 0 && score <= 100)
-            scoreView.append(score + "%");
+            scoreView.setText(score + "%");
 
         if (comment != null)
             rateView.setText(comment);
