@@ -95,6 +95,9 @@ public class MainActivityPresenter implements RecyclerViewPresenter, QuizInfoDia
                 }
             });
         }
+
+        else
+            Toast.makeText(activity, "BRAK DOSTĘPU DO INTERNETU", Toast.LENGTH_LONG).show();
     }
 
     @Override
