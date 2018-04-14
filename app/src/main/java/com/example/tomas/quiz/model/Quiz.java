@@ -1,5 +1,7 @@
 package com.example.tomas.quiz.model;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -19,6 +21,8 @@ public class Quiz extends RealmObject {
     private Photo mainPhoto;
 
     private int questions;
+
+    private Date createdAt;
 
     private String content;
 
@@ -46,6 +50,7 @@ public class Quiz extends RealmObject {
         content = quiz.content;
         category = quiz.category;
         questions = quiz.questions;
+        createdAt = quiz.createdAt;
         progress = quiz.progress;
         score = quiz.score;
     }
@@ -72,6 +77,10 @@ public class Quiz extends RealmObject {
 
     public String getId() {
         return id;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     public int getProgress() {

@@ -9,6 +9,7 @@ import com.example.tomas.quiz.model.Quiz;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.Sort;
 
 /**
  * Created by tomas on 12.04.2018.
@@ -111,11 +112,11 @@ public class RealmService {
     }
 
     /**
-     * Returns all quizzes.
+     * Returns all quizzes sorted by date.
      * @return list of quizzes
      */
     public List<Quiz> getQuizzes(){
-        return realm.where(Quiz.class).findAll();
+        return realm.where(Quiz.class).sort("createdAt", Sort.DESCENDING).findAll();
     }
 
     /*===================================================
