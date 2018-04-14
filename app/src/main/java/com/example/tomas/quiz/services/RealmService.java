@@ -84,12 +84,22 @@ public class RealmService {
      ===================================================*/
 
     /**
-     * Insert quiz.
+     * Insert quizzes.
      * @param list
      */
     public void insertQuizzes(List<Quiz> list){
         realm.beginTransaction();
         realm.copyToRealm(list);
+        realm.commitTransaction();
+    }
+
+    /**
+     * Insert quiz.
+     * @param quiz
+     */
+    public void insertQuiz(Quiz quiz){
+        realm.beginTransaction();
+        realm.copyToRealm(quiz);
         realm.commitTransaction();
     }
 
@@ -117,6 +127,14 @@ public class RealmService {
         return quiz;
     }
 
+    /**
+     * Returns all quizzes.
+     * @return list of quizzes
+     */
+    public List<Quiz> getQuizzes(){
+        return realm.where(Quiz.class).findAll();
+    }
+
     /*===================================================
                         UPDATE
      ===================================================*/
@@ -142,6 +160,13 @@ public class RealmService {
      */
     public boolean isEmpty(){
         return realm.where(Quiz.class).findAll().size() == 0;
+    }
+
+    public boolean contains(String id){
+
+        Quiz quiz = realm.where(Quiz.class).contains("id", id).findFirst();
+
+        return (quiz!=null);
     }
 
     public int getQuizCount(){

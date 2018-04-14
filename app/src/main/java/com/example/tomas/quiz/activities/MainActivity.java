@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     WebService service;
 
-    @BindView(R.id.scroll_view)
-    NestedScrollView scrollView;
-
     @BindView(R.id.recview)
     RecyclerView recyclerView;
 

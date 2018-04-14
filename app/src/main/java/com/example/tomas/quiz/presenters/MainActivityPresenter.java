@@ -5,17 +5,20 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.tomas.quiz.activities.MainActivity;
 import com.example.tomas.quiz.activities.QuizActivity;
 import com.example.tomas.quiz.model.Quiz;
 import com.example.tomas.quiz.model.QuizzesSet;
+import com.example.tomas.quiz.services.NetworkConnection;
 import com.example.tomas.quiz.services.QuizAdapter;
 import com.example.tomas.quiz.services.QuizViewHolder;
 import com.example.tomas.quiz.services.RealmService;
 import com.example.tomas.quiz.services.WebService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,7 +36,8 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
     private MainActivity activity;
     private WebService service;
 
-    // list of quizzes
+    // quizzes adapter
+    private List<Quiz> quizzes = new ArrayList<>();
     private QuizAdapter adapter;
 
     /**
@@ -53,9 +57,9 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
      */
     public void downloadQuizzes() {
 
-        if (RealmService.with(activity).isEmpty()){
+        // internet is on -> download quizzes
+        if (NetworkConnection.isConnected(activity)){
 
-            // when new elements downloaded
             Call call = service.getQuizzes();
             call.enqueue(new Callback<QuizzesSet>() {
 
@@ -64,9 +68,19 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
 
                     // assign response objects to realm
                     List<Quiz> list = response.body().getItems();
-                    RealmService.with(activity).insertQuizzes(list);
 
-                    // send quizzes to activity
+                    // put new quizzes to database
+                    for (Quiz quiz : list){
+                        if (!RealmService.with(activity).contains(quiz.getId()))
+                            RealmService.with(activity).insertQuiz(quiz);
+                        else
+                            break;
+                    }
+
+                    // set list
+                    quizzes = RealmService.with(activity).getQuizzes();
+
+                    // show quizzes in activity
                     activity.setAdapter(adapter);
                 }
 
@@ -75,17 +89,31 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
 
                 }
             });
+        }
 
-        } else {
-            activity.setAdapter(adapter);
+        // internet is off
+        else {
+
+            // realm database is empty
+            if (RealmService.with(activity).isEmpty())
+                Toast.makeText(activity, "BRAK DOSTĘPU DO INTERNETU", Toast.LENGTH_LONG).show();
+
+            // realm database is filled with previous data
+            else {
+                //set list
+                quizzes = RealmService.with(activity).getQuizzes();
+
+                activity.setAdapter(adapter);
+            }
         }
     }
 
     @Override
     public void onBindView(RecyclerView.ViewHolder holder, int position) {
 
+        // get holder and quiz
         QuizViewHolder quizHolder = (QuizViewHolder)holder;
-        Quiz quiz = RealmService.with(activity).getQuiz(position);
+        Quiz quiz = quizzes.get(position);
 
         // set title
         quizHolder.getTitle().setText(quiz.getTitle());
@@ -105,9 +133,8 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
         int numOfAns = quiz.getProgress();
         int score = quiz.getScore();
 
+        // user haven't completed quiz
         if (numOfAns < questionsCount){
-
-            // user haven't completed quiz
 
             // set text
             quizHolder.getResult().setText("Postęp:");
@@ -119,10 +146,10 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
             quizHolder.getScore().setText(numOfAns + "/" + questionsCount);
 
             quizHolder.getScore().setTextColor(Color.BLACK);
+        }
 
-        } else {
-
-            // quiz is complete
+        // quiz is complete
+        else {
 
             // set text
             quizHolder.getResult().setText("Wynik:");
@@ -139,15 +166,16 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
                 quizHolder.getScore().setTextColor(Color.GREEN);
             else
                 quizHolder.getScore().setTextColor(Color.YELLOW);
-
-
-
-
         }
     }
 
     @Override
     public void onClick(View view) {
+
+        if (!NetworkConnection.isConnected(activity)){
+            Toast.makeText(activity, "BRAK DOSTĘPU DO INTERNETU", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         // get clicked quiz
         int position = activity.getRecyclerView().getChildAdapterPosition(view);

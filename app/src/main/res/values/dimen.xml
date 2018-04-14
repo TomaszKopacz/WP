@@ -6,7 +6,7 @@
     <dimen name="margin_large">50dp</dimen>
     <dimen name="text_size">16sp</dimen>
     <dimen name="text_size_medium">20sp</dimen>
-    <dimen name="text_size_large">30sp</dimen>
+    <dimen name="text_size_large">40sp</dimen>
 
     <!-- QUESTION FRAGMENT-->
     <dimen name="item_height">300dp</dimen>
