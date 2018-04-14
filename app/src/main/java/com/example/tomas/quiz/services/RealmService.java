@@ -6,7 +6,6 @@ import android.app.Fragment;
 
 import com.example.tomas.quiz.model.Quiz;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -30,7 +29,7 @@ public class RealmService {
     }
 
     /**
-     * Returns instance that will be tied to a cpecific context.
+     * Returns instance that will be tied to a specific context.
      * @param fragment
      * @return instance
      */
@@ -42,7 +41,7 @@ public class RealmService {
     }
 
     /**
-     * Returns instance that will be tied to a cpecific context.
+     * Returns instance that will be tied to a specific context.
      * @param activity
      * @return instance
      */
@@ -54,7 +53,7 @@ public class RealmService {
     }
 
     /**
-     * Returns instance that will be tied to a cpecific context.
+     * Returns instance that will be tied to a specific context.
      * @param application
      * @return instance
      */
@@ -73,25 +72,9 @@ public class RealmService {
         return instance;
     }
 
-    public void clearAll(){
-        realm.beginTransaction();
-        realm.delete(Quiz.class);
-        realm.commitTransaction();
-    }
-
     /*===================================================
                         INSERT
      ===================================================*/
-
-    /**
-     * Insert quizzes.
-     * @param list
-     */
-    public void insertQuizzes(List<Quiz> list){
-        realm.beginTransaction();
-        realm.copyToRealm(list);
-        realm.commitTransaction();
-    }
 
     /**
      * Insert quiz.
@@ -154,21 +137,35 @@ public class RealmService {
                         UTILS
      ===================================================*/
 
+    public void clearAllQuizzes(){
+        realm.beginTransaction();
+        realm.delete(Quiz.class);
+        realm.commitTransaction();
+    }
+
     /**
      * Checks if quizzes table is empty.
      * @return
      */
-    public boolean isEmpty(){
+    public boolean isQuizzesTableEmpty(){
         return realm.where(Quiz.class).findAll().size() == 0;
     }
 
-    public boolean contains(String id){
+    /**
+     * Checks if quizzes table containsQuiz quiz with a given id.
+     * @return
+     */
+    public boolean containsQuiz(String id){
 
         Quiz quiz = realm.where(Quiz.class).contains("id", id).findFirst();
 
         return (quiz!=null);
     }
 
+    /**
+     * Returns size of quizzes table.
+     * @return
+     */
     public int getQuizCount(){
         return realm.where(Quiz.class).findAll().size();
     }

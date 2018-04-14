@@ -16,7 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 /**
- *
+ *  Result fragment.
+ *  Shows score and provides buttons to get back or do the quiz again.
  */
 public class ResultFragment extends Fragment {
 
@@ -65,6 +66,8 @@ public class ResultFragment extends Fragment {
 
         if (score >= 0 && score <= 100)
             scoreView.setText(score + "%");
+        else
+            scoreView.setText("błąd");
 
         if (comment != null)
             rateView.setText(comment);
@@ -95,12 +98,12 @@ public class ResultFragment extends Fragment {
     }
 
     @OnClick(R.id.again)
-    public void doQuizAgain(){
+    public void btnAgainClicked(){
         presenter.doQuizAgain();
     }
 
     @OnClick(R.id.back)
-    public void exitQuiz(){
+    public void btnExitClicked(){
         presenter.exitQuiz();
     }
 }

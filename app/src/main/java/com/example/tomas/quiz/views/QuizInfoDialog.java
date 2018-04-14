@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.example.tomas.quiz.R;
@@ -17,7 +16,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by tomas on 14.04.2018.
+ * Info dialog.
+ * Contains additional data about quiz: category and description.
  */
 
 public class QuizInfoDialog extends Dialog {

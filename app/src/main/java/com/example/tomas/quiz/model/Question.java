@@ -5,17 +5,25 @@ import java.util.List;
 
 /**
  * Created by tomas on 12.04.2018.
+ *
+ * Question.
  */
 
 public class Question {
 
     private String type;
     private String answer;
-
     private Photo image;
     private String text;
 
     private List<Answer> answers = new ArrayList<>();
+
+    /**
+     * Constructor.
+     */
+    public Question(){
+
+    }
 
     public String getType() {
         return type;

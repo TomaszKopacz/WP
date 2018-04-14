@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by tomas on 12.04.2018.
+ *
+ * Quiz details.
  */
 
 public class QuizDetails {
@@ -14,6 +16,9 @@ public class QuizDetails {
 
     private List<Rate> rates;
 
+    /**
+     * Constructor.
+     */
     public QuizDetails(){
 
     }

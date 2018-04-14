@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.example.tomas.quiz.R;
 import com.example.tomas.quiz.presenters.RecyclerViewPresenter;
+import com.example.tomas.quiz.views.QuizViewHolder;
 
 /**
  * Created by tomas on 11.04.2018.

@@ -22,7 +22,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- *
+ * Question fragment.
+ * Contains view for question and answers.
  */
 public class QuestionFragment extends Fragment {
 

@@ -25,6 +25,8 @@ import retrofit2.Response;
 
 /**
  * Created by tomas on 12.04.2018.
+ *
+ * Presenter for QuizActivity.
  */
 
 public class QuizActivityPresenter implements QuestionFragmentPresenter, ResultFragmentPresenter {
@@ -61,11 +63,7 @@ public class QuizActivityPresenter implements QuestionFragmentPresenter, ResultF
         activity.setTitle(currentQuiz.getTitle());
 
         // set background
-        Glide
-                .with(activity)
-                .load(currentQuiz.getPhoto().getUrl())
-                .centerCrop()
-                .into(activity.getImageVIew());
+        activity.setImage(currentQuiz.getPhoto().getUrl());
 
         // count progress bar value in %
         int status = (int)(((float)progress/currentQuiz.getQuestionsCount())*100);
@@ -85,12 +83,12 @@ public class QuizActivityPresenter implements QuestionFragmentPresenter, ResultF
             public void onResponse(Call<QuizDetails> call, Response<QuizDetails> response) {
                 details = response.body();
 
+                // if not all questions were answered: ask first non answered question
                 if (progress < currentQuiz.getQuestionsCount())
-                    // ask next question
                     askQuestion(details.getQuestions().get(progress));
 
+                // all questions answered: show result
                 else
-                    // it was last question: show result
                     showResult();
             }
 
@@ -130,7 +128,7 @@ public class QuizActivityPresenter implements QuestionFragmentPresenter, ResultF
         quizToUpdate.setScore(score);
         RealmService.with(activity).updateQuiz(quizToUpdate);
 
-        // ask next question or show result if last question
+        // ask next question or show result if it was last question
         if (progress < currentQuiz.getQuestionsCount())
             askQuestion(details.getQuestions().get(progress));
         else
@@ -154,10 +152,8 @@ public class QuizActivityPresenter implements QuestionFragmentPresenter, ResultF
      */
     private void showResult(){
 
-        // get result fragment
-        ResultFragment fragment = getResultFragment();
-
         // set fragment to activity
+        ResultFragment fragment = getResultFragment();
         activity.setFragment(fragment);
     }
 

@@ -17,6 +17,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Main activity.
+ * Contains recycler view list of quizzes.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private MainActivityPresenter presenter;
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setUpRecyclerView();
 
         // get quizzes
-        presenter.downloadQuizzes();
+        presenter.setQuizzes();
     }
 
     /**

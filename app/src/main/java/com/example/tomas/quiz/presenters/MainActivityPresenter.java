@@ -4,19 +4,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.tomas.quiz.views.MainActivity;
-import com.example.tomas.quiz.views.QuizActivity;
 import com.example.tomas.quiz.model.Quiz;
 import com.example.tomas.quiz.model.QuizzesSet;
 import com.example.tomas.quiz.services.NetworkConnection;
 import com.example.tomas.quiz.services.QuizAdapter;
-import com.example.tomas.quiz.services.QuizViewHolder;
+import com.example.tomas.quiz.views.QuizViewHolder;
 import com.example.tomas.quiz.services.RealmService;
 import com.example.tomas.quiz.services.WebService;
+import com.example.tomas.quiz.views.MainActivity;
+import com.example.tomas.quiz.views.QuizActivity;
 import com.example.tomas.quiz.views.QuizInfoDialog;
 
 import java.util.ArrayList;
@@ -56,7 +54,17 @@ public class MainActivityPresenter implements RecyclerViewPresenter, QuizInfoDia
     /**
      * Downloads list of quizzes.
      */
-    public void downloadQuizzes() {
+    public void setQuizzes() {
+
+        quizzes = RealmService.with(activity).getQuizzes();
+        downloadNewQuizzes();
+        activity.setAdapter(adapter);
+    }
+
+    /**
+     * Downloads new quizzes.
+     */
+    private void downloadNewQuizzes(){
 
         // internet is on -> download quizzes
         if (NetworkConnection.isConnected(activity)){
@@ -71,102 +79,76 @@ public class MainActivityPresenter implements RecyclerViewPresenter, QuizInfoDia
                     List<Quiz> list = response.body().getItems();
 
                     // put new quizzes to database
-                    for (Quiz quiz : list){
-                        if (!RealmService.with(activity).contains(quiz.getId()))
+                    for (Quiz quiz : list)
+                        if (!RealmService.with(activity).containsQuiz(quiz.getId()))
                             RealmService.with(activity).insertQuiz(quiz);
-                        else
-                            break;
-                    }
 
                     // set list
                     quizzes = RealmService.with(activity).getQuizzes();
-
-                    // show quizzes in activity
                     activity.setAdapter(adapter);
                 }
 
                 @Override
                 public void onFailure(Call<QuizzesSet> call, Throwable t) {
-
+                    Toast.makeText(activity, "Nie można pobrać nowych quizów",
+                            Toast.LENGTH_LONG).show();
                 }
             });
-        }
-
-        // internet is off
-        else {
-
-            // realm database is empty
-            if (RealmService.with(activity).isEmpty())
-                Toast.makeText(activity, "BRAK DOSTĘPU DO INTERNETU", Toast.LENGTH_LONG).show();
-
-            // realm database is filled with previous data
-            else {
-                //set list
-                quizzes = RealmService.with(activity).getQuizzes();
-
-                activity.setAdapter(adapter);
-            }
         }
     }
 
     @Override
     public void onBindView(RecyclerView.ViewHolder holder, int position) {
 
+        // empty quizzes list tells that there are no quizzes available
+        if (quizzes.isEmpty()){
+            Toast.makeText(activity, "Brak dostępnych quizów", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         // get holder and quiz
         QuizViewHolder quizHolder = (QuizViewHolder)holder;
         Quiz quiz = quizzes.get(position);
 
-        // set title
-        quizHolder.getTitle().setText(quiz.getTitle());
+        // set title and image
+        quizHolder.setTitle(quiz.getTitle());
+        quizHolder.setImage(activity, quiz.getPhoto().getUrl());
 
-        // set image
-        ImageView view = quizHolder.getImage();
-
-        Glide
-                .with(activity)
-                .load(quiz.getPhoto().getUrl())
-                .fitCenter()
-                .centerCrop()
-                .into(view);
-
-        // set results
+        // get results
         int questionsCount = quiz.getQuestionsCount();
         int numOfAns = quiz.getProgress();
         int score = quiz.getScore();
 
-        // user haven't completed quiz
+        // if user haven't completed quiz
         if (numOfAns < questionsCount){
 
-            // set text
-            quizHolder.getResult().setText("Postęp:");
-
-            // show progress bar and num of answers
             // count progress in %
             int progress = (int)(((float)numOfAns/questionsCount)*100);
-            quizHolder.getProgressBar().setProgress(progress);
-            quizHolder.getScore().setText(numOfAns + "/" + questionsCount);
 
-            quizHolder.getScore().setTextColor(Color.BLACK);
+            // set views
+            quizHolder.setResult("Postęp: ");
+            quizHolder.setProgressBar(progress);
+            quizHolder.setScore(numOfAns + "/" + questionsCount);
+            quizHolder.setScoreColor(Color.BLACK);
         }
 
-        // quiz is complete
+        // if quiz is complete
         else {
 
-            // set text
-            quizHolder.getResult().setText("Wynik:");
-
-            // show progress bar and score
             // count result in %
             int result = (int)(((float)score/questionsCount)*100);
-            quizHolder.getProgressBar().setProgress(result);
-            quizHolder.getScore().setText(result + "%");
+
+            // set views
+            quizHolder.setResult("Wynik: ");
+            quizHolder.setProgressBar(result);
+            quizHolder.setScore(result + "%");
 
             if (result < 30)
-                quizHolder.getScore().setTextColor(Color.RED);
+                quizHolder.setScoreColor(Color.RED);
             else if (result > 70)
-                quizHolder.getScore().setTextColor(Color.GREEN);
+                quizHolder.setScoreColor(Color.GREEN);
             else
-                quizHolder.getScore().setTextColor(Color.YELLOW);
+                quizHolder.setScoreColor(Color.YELLOW);
         }
     }
 
@@ -185,13 +167,26 @@ public class MainActivityPresenter implements RecyclerViewPresenter, QuizInfoDia
     @Override
     public void onLongClick(View view) {
 
+        // get quiz
         int position = activity.getRecyclerView().getChildAdapterPosition(view);
         Quiz quiz = RealmService.with(activity).getQuiz(position);
 
+        // show dialog
+        QuizInfoDialog dialog = getInfoDialog(quiz);
+        dialog.show();
+    }
+
+    /**
+     * Returns dialog.
+     * @param quiz
+     * @return
+     */
+    private QuizInfoDialog getInfoDialog(Quiz quiz){
         QuizInfoDialog dialog = new QuizInfoDialog(activity);
         dialog.setPresenter(this);
         dialog.setQuiz(quiz);
-        dialog.show();
+
+        return dialog;
     }
 
 
@@ -216,6 +211,7 @@ public class MainActivityPresenter implements RecyclerViewPresenter, QuizInfoDia
             return;
         }
 
+        // start new intent
         Intent intent = new Intent(activity, QuizActivity.class);
         intent.putExtra("id", quizId);
         activity.startActivity(intent);

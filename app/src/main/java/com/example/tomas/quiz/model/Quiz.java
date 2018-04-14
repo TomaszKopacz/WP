@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by tomas on 11.04.2018.
  *
- * Class representing quiz.
+ * Quiz.
  */
 
 public class Quiz extends RealmObject {
@@ -50,60 +50,28 @@ public class Quiz extends RealmObject {
         score = quiz.score;
     }
 
-    public void incrementProgress(){
-        progress++;
-    }
-
-    public void incrementScore(){
-        score++;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public int getQuestionsCount() {
         return questions;
     }
 
-    public void setQuestionsCount(int questions) {
-        this.questions = questions;
-    }
-
     public String getContent() {
         return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Photo getPhoto() {
         return mainPhoto;
     }
 
-    public void setPhoto(Photo photo) {
-        this.mainPhoto = photo;
-    }
-
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public int getProgress() {

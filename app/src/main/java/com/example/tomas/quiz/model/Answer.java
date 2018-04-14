@@ -2,6 +2,8 @@ package com.example.tomas.quiz.model;
 
 /**
  * Created by tomas on 12.04.2018.
+ *
+ * Answer.
  */
 
 public class Answer {
@@ -10,6 +12,9 @@ public class Answer {
     private String text;
     private int isCorrect;
 
+    /**
+     * Constructor.
+     */
     public Answer(){
 
     }

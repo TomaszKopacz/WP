@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.tomas.quiz.R;
 import com.example.tomas.quiz.app.MainApp;
 import com.example.tomas.quiz.presenters.QuizActivityPresenter;
@@ -20,6 +21,12 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Quiz activity.
+ * Contained of question fragment or result fragment if all questions are answered.
+ * Questions loaded from web are shown in question fragment.
+ * To show progress of quiz, progress bar is implemented.
+ */
 public class QuizActivity extends FragmentActivity {
 
     private QuizActivityPresenter presenter;
@@ -69,6 +76,18 @@ public class QuizActivity extends FragmentActivity {
      */
     public void setTitle(String title){
         titleView.setText(title);
+    }
+
+    /**
+     * Sets image.
+     * @param url
+     */
+    public void setImage(String url){
+        Glide
+                .with(this)
+                .load(url)
+                .centerCrop()
+                .into(image);
     }
 
     /**

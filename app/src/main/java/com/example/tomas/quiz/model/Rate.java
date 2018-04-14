@@ -2,6 +2,8 @@ package com.example.tomas.quiz.model;
 
 /**
  * Created by tomas on 12.04.2018.
+ *
+ * Rate.
  */
 
 public class Rate {
@@ -10,6 +12,9 @@ public class Rate {
     private int to;
     private String content;
 
+    /**
+     * Constructor.
+     */
     public Rate(){
 
     }
