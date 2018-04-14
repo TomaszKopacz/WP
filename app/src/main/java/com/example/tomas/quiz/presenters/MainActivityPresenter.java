@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.tomas.quiz.activities.MainActivity;
-import com.example.tomas.quiz.activities.QuizActivity;
+import com.example.tomas.quiz.views.MainActivity;
+import com.example.tomas.quiz.views.QuizActivity;
 import com.example.tomas.quiz.model.Quiz;
 import com.example.tomas.quiz.model.QuizzesSet;
 import com.example.tomas.quiz.services.NetworkConnection;
@@ -17,6 +17,7 @@ import com.example.tomas.quiz.services.QuizAdapter;
 import com.example.tomas.quiz.services.QuizViewHolder;
 import com.example.tomas.quiz.services.RealmService;
 import com.example.tomas.quiz.services.WebService;
+import com.example.tomas.quiz.views.QuizInfoDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import retrofit2.Response;
  * Presenter for MainActivity.
  */
 
-public class MainActivityPresenter implements RecyclerViewPresenter {
+public class MainActivityPresenter implements RecyclerViewPresenter, QuizInfoDialogPresenter {
 
     private MainActivity activity;
     private WebService service;
@@ -183,14 +184,39 @@ public class MainActivityPresenter implements RecyclerViewPresenter {
         String id = quiz.getId();
 
         // start quiz activity
-        Intent intent = new Intent(activity, QuizActivity.class);
-        intent.putExtra("id", id);
-        activity.startActivity(intent);
-        activity.finish();
+        startQuizActivity(id);
     }
+
+    @Override
+    public void onLongClick(View view) {
+
+        int position = activity.getRecyclerView().getChildAdapterPosition(view);
+        Quiz quiz = RealmService.with(activity).getQuiz(position);
+
+        QuizInfoDialog dialog = new QuizInfoDialog(activity);
+        dialog.setPresenter(this);
+        dialog.setQuiz(quiz);
+        dialog.show();
+    }
+
 
     @Override
     public int getItemCount() {
         return RealmService.with(activity).getQuizCount();
+    }
+
+    @Override
+    public void startQuiz(Quiz quiz) {
+        startQuizActivity(quiz.getId());
+    }
+
+    /**
+     * Starts quiz activity.
+     */
+    private void startQuizActivity(String quizId){
+        Intent intent = new Intent(activity, QuizActivity.class);
+        intent.putExtra("id", quizId);
+        activity.startActivity(intent);
+        activity.finish();
     }
 }

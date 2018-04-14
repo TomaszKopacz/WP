@@ -7,10 +7,10 @@ import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.tomas.quiz.R;
-import com.example.tomas.quiz.activities.MainActivity;
-import com.example.tomas.quiz.activities.QuestionFragment;
-import com.example.tomas.quiz.activities.QuizActivity;
-import com.example.tomas.quiz.activities.ResultFragment;
+import com.example.tomas.quiz.views.MainActivity;
+import com.example.tomas.quiz.views.QuestionFragment;
+import com.example.tomas.quiz.views.QuizActivity;
+import com.example.tomas.quiz.views.ResultFragment;
 import com.example.tomas.quiz.model.Answer;
 import com.example.tomas.quiz.model.Question;
 import com.example.tomas.quiz.model.Quiz;

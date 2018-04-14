@@ -13,6 +13,7 @@ public interface RecyclerViewPresenter {
 
     void onBindView(RecyclerView.ViewHolder holder, int position);
     void onClick(View view);
+    void onLongClick(View view);
     int getItemCount();
 
 }

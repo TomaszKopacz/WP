@@ -1,21 +1,14 @@
-package com.example.tomas.quiz.activities;
+package com.example.tomas.quiz.views;
 
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.example.tomas.quiz.R;
 import com.example.tomas.quiz.app.MainApp;
 import com.example.tomas.quiz.presenters.MainActivityPresenter;
-import com.example.tomas.quiz.presenters.RecyclerViewPresenter;
 import com.example.tomas.quiz.services.QuizAdapter;
 import com.example.tomas.quiz.services.WebService;
 

@@ -20,6 +20,10 @@ public class Quiz extends RealmObject {
 
     private int questions;
 
+    private String content;
+
+    private Category category;
+
     private int progress = 0;
 
     private int score = 0;
@@ -39,6 +43,8 @@ public class Quiz extends RealmObject {
         id = quiz.id;
         title = quiz.title;
         mainPhoto = quiz.mainPhoto;
+        content = quiz.content;
+        category = quiz.category;
         questions = quiz.questions;
         progress = quiz.progress;
         score = quiz.score;
@@ -66,6 +72,22 @@ public class Quiz extends RealmObject {
 
     public void setQuestionsCount(int questions) {
         this.questions = questions;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Photo getPhoto() {

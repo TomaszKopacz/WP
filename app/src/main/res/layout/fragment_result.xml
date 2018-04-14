@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.tomas.quiz.activities.ResultFragment"
+    tools:context="com.example.tomas.quiz.views.ResultFragment"
     android:orientation="vertical">
 
     <TextView

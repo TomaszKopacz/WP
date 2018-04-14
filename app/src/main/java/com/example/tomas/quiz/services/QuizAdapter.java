@@ -39,6 +39,13 @@ public class QuizAdapter extends RecyclerView.Adapter {
                 presenter.onClick(view);
             }
         });
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                presenter.onLongClick(view);
+                return true;
+            }
+        });
 
         return new QuizViewHolder(view);
     }

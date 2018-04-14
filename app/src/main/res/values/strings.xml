@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Quiz</string>
 
+    <string name="start">START</string>
     <string name="button_again">Rozwiąż test jeszcze raz</string>
     <string name="button_back">Przeglądaj quizy</string>
 </resources>

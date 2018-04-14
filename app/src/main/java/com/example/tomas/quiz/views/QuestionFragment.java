@@ -1,4 +1,4 @@
-package com.example.tomas.quiz.activities;
+package com.example.tomas.quiz.views;
 
 
 import android.os.Bundle;
