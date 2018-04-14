@@ -173,11 +173,6 @@ public class MainActivityPresenter implements RecyclerViewPresenter, QuizInfoDia
     @Override
     public void onClick(View view) {
 
-        if (!NetworkConnection.isConnected(activity)){
-            Toast.makeText(activity, "BRAK DOSTĘPU DO INTERNETU", Toast.LENGTH_LONG).show();
-            return;
-        }
-
         // get clicked quiz
         int position = activity.getRecyclerView().getChildAdapterPosition(view);
         Quiz quiz = RealmService.with(activity).getQuiz(position);
@@ -214,6 +209,13 @@ public class MainActivityPresenter implements RecyclerViewPresenter, QuizInfoDia
      * Starts quiz activity.
      */
     private void startQuizActivity(String quizId){
+
+        // check internet connection
+        if (!NetworkConnection.isConnected(activity)){
+            Toast.makeText(activity, "BRAK DOSTĘPU DO INTERNETU", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Intent intent = new Intent(activity, QuizActivity.class);
         intent.putExtra("id", quizId);
         activity.startActivity(intent);
