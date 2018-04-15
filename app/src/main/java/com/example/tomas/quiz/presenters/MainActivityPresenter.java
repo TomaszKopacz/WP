@@ -160,7 +160,7 @@ public class MainActivityPresenter implements RecyclerViewPresenter, QuizInfoDia
 
         // get clicked quiz
         int position = activity.getRecyclerView().getChildAdapterPosition(view);
-        Quiz quiz = RealmService.with(activity).getQuiz(position);
+        Quiz quiz = quizzes.get(position);
         String id = quiz.getId();
 
         // start quiz activity
